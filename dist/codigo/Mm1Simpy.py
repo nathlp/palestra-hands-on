@@ -7,9 +7,8 @@ import simpy
 
 contaChegada = 0
 contaTerminos = 0
-tempoServico = []
-tempoResposta = []
-
+tempoServico = [0]*1
+tempoResposta = [0]*1
 # função que armazena as distribuições utilizadas no modelo
 def distributions(tipo):
 	return {
@@ -41,14 +40,15 @@ def processoCPU(env, recursos):
 	inicio = env.now
 	yield env.timeout(distributions('cpu'))
 	tempoServico[0] = tempoServico[0] + (env.now - inicio)
-	tempoResposta[0] = tempoResposta + tempoFila + tempoServico[0]
+	tempoResposta[0] = tempoResposta [0] + tempoFila + tempoServico[0]
 
 	recursos[recursos.index(cpu)].release(req)
 
 	contaTerminos+=1
+	#print('terminos', contaTerminos)
 
 # define a semente ultizada para a geração aleatoria de numeros
-random.seed(10)
+random.seed(1)
 
 # cria o ambiente de simulação
 env = simpy.Environment()
@@ -64,15 +64,16 @@ recursos = [
 env.process(chegadaClientes(env, recursos))
 
 # define o tempo total de execução da simulação
-env.run(until=2000)
+env.run(until=2000)   
 
 # gera os relatorios finais
 saida = open("mm1.txt","w+")
 
 print('Total de Clientes processados = ', contaTerminos)
+print('Conta chegadas', contaChegada)
 print('Throughput = ', contaTerminos/2000)
 
-print('Tempo de Serviço CPU = ', tempoServico)
+print('Tempo de Serviço CPU = ', tempoServico[0])
 print('Tempo Médio de Serviço CPU = ', tempoServico[0]/contaTerminos)
 print('Utilização CPU = ', tempoServico[0]/2000)
 print('Tempo de resposta CPU = ', tempoResposta[0])

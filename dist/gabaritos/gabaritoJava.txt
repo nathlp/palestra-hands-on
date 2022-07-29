@@ -300,7 +300,7 @@ import org.javasim.streams.ExponentialStream;
 
                 fimAtividade = currentTime();
                 tempoDeServico += fimAtividade - inicioAtividade;
-                Controle.tempoServico += tempoDeServico;
+                Controle.totalServico += tempoDeServico;
 %10ativa_proximo_recurso
 
             }

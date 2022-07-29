@@ -13,7 +13,7 @@ env
 
 cliente <- trajectory() %>%
 	seize("cpu", 1) %>%
-	timeout(function() rexp(1, 0.1)) %>%
+	timeout(function() rexp(1, 1)) %>%
 	release("cpu", 1) %>%
 	set_attribute("queue_cpu", function() get_queue_count(env, "cpu"))
 
